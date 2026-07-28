@@ -1,34 +1,18 @@
 pipeline {
-
     agent any
 
     stages {
-
         stage('Clone') {
             steps {
-                git 'https://github.com/username/backend.git'
+                git branch: 'main',
+                    url: 'https://github.com/mmuthukrishnan2003/backend.git'
             }
         }
 
-        stage('Install') {
+        stage('Build') {
             steps {
-                sh 'npm install'
+                bat 'dir'
             }
         }
-
-        stage('Deploy') {
-            steps {
-                sh '''
-                ssh ubuntu@Backend-IP "
-                cd /opt/backend &&
-                git pull &&
-                npm install &&
-                pm2 restart backend
-                "
-                '''
-            }
-        }
-
     }
-
 }
