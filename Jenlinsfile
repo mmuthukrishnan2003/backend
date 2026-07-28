@@ -1,0 +1,34 @@
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git 'https://github.com/username/backend.git'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                ssh ubuntu@Backend-IP "
+                cd /opt/backend &&
+                git pull &&
+                npm install &&
+                pm2 restart backend
+                "
+                '''
+            }
+        }
+
+    }
+
+}
